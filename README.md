@@ -86,7 +86,11 @@ docker run -p 8080:8080 hello-world-flask:local
 * Config QA: hello-world-flask-config-qa
 * Config STAGING: hello-world-flask-config-staging
 * Config PROD: hello-world-flask-config-prod
-* Argo CD Apps: hello-world-flask-app-of-apps
+* Argo CD Config DEV: hello-world-argocd-dev
+* Argo CD Config QA: hello-world-argocd-qa
+* Argo CD Config STAGING: hello-world-argocd-staging
+* Argo CD Config PROD: hello-world-argocd-prod 
+
 
 ## Testing
 
