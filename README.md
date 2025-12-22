@@ -81,11 +81,11 @@ docker run -p 8080:8080 hello-world-flask:local
 
 ## Related Repositories
 
-* Source: hello-world-flask (this repo)
-* Config DEV: hello-world-flask-config-dev
-* Config QA: hello-world-flask-config-qa
-* Config STAGING: hello-world-flask-config-staging
-* Config PROD: hello-world-flask-config-prod
+* Source: hello-world (this repo)
+* Config DEV: hello-world-config-dev
+* Config QA: hello-world-config-qa
+* Config STAGING: hello-world-config-staging
+* Config PROD: hello-world-config-prod
 * Argo CD Config DEV: hello-world-argocd-dev
 * Argo CD Config QA: hello-world-argocd-qa
 * Argo CD Config STAGING: hello-world-argocd-staging
