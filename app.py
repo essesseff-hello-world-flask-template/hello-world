@@ -78,7 +78,7 @@ def ready():
 
 if __name__ == '__main__':
     port = int(PORT)
-    logger.info(f'Starting Hello World server on port {port}')
+    logger.info(f'Starting Hello World Python Flask server on port {port}')
     logger.info(f'Environment: {ENVIRONMENT}')
     logger.info(f'Version: {VERSION}')
     app.run(host='0.0.0.0', port=port, debug=False)
