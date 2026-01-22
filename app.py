@@ -1,6 +1,8 @@
 from flask import Flask, jsonify
 import os
 import logging
+from datetime import datetime
+import socket
 
 app = Flask(__name__)
 
@@ -11,29 +13,49 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Load version from semver.txt if it exists
-VERSION = "0.0.0"
-try:
-    with open('semver.txt', 'r') as f:
-        VERSION = f.read().strip()
-except FileNotFoundError:
-    logger.warning("semver.txt not found, using default version")
+# Read environment variables with defaults
+PORT = os.environ.get('PORT', '8080')
+ENVIRONMENT = os.environ.get('ENVIRONMENT', 'unknown')
+VERSION = os.environ.get('VERSION', 'unknown')
+
+def get_hostname():
+    """Get the hostname of the current system"""
+    try:
+        return socket.gethostname()
+    except Exception:
+        return 'unknown'
 
 @app.route('/')
 def home():
     """Main page endpoint"""
+    timestamp = datetime.now().isoformat()
+    hostname = get_hostname()
+    
     return f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Hello World</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-        <p>Version: {VERSION}</p>
-        <p>This is a simple Flask application.</p>
-    </body>
-    </html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello World - {ENVIRONMENT}</title>
+    <style>
+        body {{ font-family: Arial, sans-serif; margin: 40px; }}
+        .container {{ max-width: 600px; margin: 0 auto; }}
+        .info {{ background: #f0f0f0; padding: 20px; border-radius: 5px; }}
+        h1 {{ color: #333; }}
+        .env {{ color: #0066cc; font-weight: bold; }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hello World Flask!</h1>
+        <div class="info">
+            <p><strong>Environment:</strong> <span class="env">{ENVIRONMENT}</span></p>
+            <p><strong>Version:</strong> {VERSION}</p>
+            <p><strong>Timestamp:</strong> {timestamp}</p>
+            <p><strong>Hostname:</strong> {hostname}</p>
+        </div>
+    </div>
+</body>
+</html>
     """
 
 @app.route('/health')
@@ -41,6 +63,7 @@ def health():
     """Health check endpoint"""
     return jsonify({
         'status': 'healthy',
+        'environment': ENVIRONMENT,
         'version': VERSION
     }), 200
 
@@ -49,10 +72,14 @@ def ready():
     """Readiness check endpoint"""
     return jsonify({
         'status': 'ready',
+        'environment': ENVIRONMENT,
         'version': VERSION
     }), 200
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8080))
-    logger.info(f'Starting Flask app on port {port}')
+    port = int(PORT)
+    logger.info(f'Starting Hello World server on port {port}')
+    logger.info(f'Environment: {ENVIRONMENT}')
+    logger.info(f'Version: {VERSION}')
     app.run(host='0.0.0.0', port=port, debug=False)
+    
