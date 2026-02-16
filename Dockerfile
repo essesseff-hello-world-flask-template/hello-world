@@ -1,14 +1,17 @@
 # Use official Python runtime as base image
 FROM python:3.14-slim
 
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
 # Set working directory
 WORKDIR /app
 
 # Copy requirements file
 COPY requirements.txt .
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install dependencies (--system avoids creating a venv inside the container)
+RUN uv pip install --system --no-cache -r requirements.txt
 
 # Copy application files
 COPY . .
