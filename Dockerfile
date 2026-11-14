@@ -1,5 +1,5 @@
 # Use official Python runtime as base image
-FROM python:3.14-slim
+FROM python:3.15-slim
 
 # Install uv
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
